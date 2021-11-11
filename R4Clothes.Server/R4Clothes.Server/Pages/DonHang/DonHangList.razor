@@ -1,0 +1,32 @@
+﻿@page "/donhanglist"
+@using System.Net.Http.Json
+@inject HttpClient httpClient
+
+<a class="btn btn-success p-10" href="/donhangedit">Thêm</a>
+<table class="table table-dark table-striped mt-3">
+    <thead>
+        <tr>
+            <th scope="col">Mã Hóa Đơn</th>
+            <th scope="col">Mã Khách Hàng</th>
+            <th scope="col">Người Quản Trị</th>
+            <th scope="col">Trạng Thái Đơn Hàng</th>
+            <th scope="col">Ngày Đặt</th>
+            <th scope="col">Tổng Tiền</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>1</th>
+            <td>1</td>
+            <td>Sơn</td>
+            <td>Mới Đặt</td>
+            <td>11/10/2021</td>
+            <td>15$</td>
+            <td>
+                <a class="btn btn-info">Sửa</a> |
+                <a class="btn btn-warning">Xem</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,73 @@
+﻿@page "/"
+@layout WebLayout;
+<style>
+    .list-product {
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .product {
+        margin-top: 10px;
+        margin-right: 10px;
+        width: 205px;
+    }
+
+    .img {
+        width: 150px;
+        display: block;
+        margin: auto;
+    }
+
+    .title {
+        color: #0e0e0e;
+        display: block;
+        font-size: 15px;
+        font-weight: bold;
+        text-align: center;
+        height: 60px;
+    }
+
+    .field-price {
+        font-size: 24px;
+        color: #d50000;
+        margin-bottom: 15px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .viewProduct, .addProduct {
+        border: 0;
+        font-weight: 700;
+        padding: 9px 5px;
+        background: #ffd800;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        display: block;
+        width: 186px;
+        margin: 0 auto;
+        color: #0e0e0e;
+    }
+
+    .addProduct {
+        margin-left: 2px;
+    }
+</style>
+
+<div class="list-product">
+        <div class="product">
+            
+            <img src="https://chupanhvn.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2017/03/23075849/chup-anh-quan-ao2.jpg" class="img-responsive" style="width:200px; height:200px" />
+            <span class="title">Món Ăn</span>
+            <div class="field-price"></div>
+            <button type="button" class="addProduct text-center"
+                    onmouseup="addCart">
+                Add order
+                <img id="" src="images/busy.gif" style="display:none" />
+            </button>
+            @*<a class="addProduct text-center" @onclick="() => AddCart(item.MonAnID)">
+                    Add order <img id="imgBusy_@item.MonAnID" src="images/busy.gif" style="display:none" />
+                </a>*@
+        </div>
+</div>

@@ -1,0 +1,86 @@
+﻿
+@page "/KhachhangEdit"
+
+<form>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Tên Khách hàng</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Địa Chỉ Email</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Địa Chỉ</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Ngày Sinh</label>
+                    <MudGrid>
+                        <MudItem xs="300" sm="6" md="4">
+                            <MudDatePicker Class="w-100" OpenTo="OpenTo.Year" Text="2020-10-19" />
+                        </MudItem>
+                    </MudGrid>
+            </div>
+            <div class="mb-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <label for="exampleInputPassword1" class="form-label">Giới Tính</label>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Nam
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Nữ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Số Điện Thoại</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label class="form-check-label" for="exampleCheck1">Trạng Thái</label>
+                <select class="form-select form-control form-select-lg mb-3 w-100 h-100" aria-label=".form-select-lg example">
+                    <option selected>Hoạt Động</option>
+                    <option value="1">Không Hoạt Động</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:25%">Thêm</button>
+            <button type="submit" class="btn btn-primary" style="width:25%">Hủy</button>
+            <button type="submit" class="btn btn-primary" style="width:25%">Về Trang Danh Sách</button>
+        </div>
+        <div class="col-lg-5 mt-5">
+            <div class="col-6">
+                <div class="mb-3 form-check">
+                    <label for="exampleInputPassword1" class="form-label">Hình Ảnh</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <img src="https://i.pinimg.com/236x/7b/3d/c0/7b3dc06d85ec2ac951874e5ac5e1baf1.jpg" class="rounded  d-block" alt="..." />
+            </div>
+        </div>
+
+
+    </div>
+</form>
+@code {
+    private void UploadFiles(InputFileChangeEventArgs e)
+    {
+        var entries = e.GetMultipleFiles();
+    }
+}

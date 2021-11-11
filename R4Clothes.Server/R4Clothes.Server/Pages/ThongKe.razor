@@ -1,0 +1,49 @@
+﻿@page "/Thongke"
+<MudGrid>
+    <MudItem xs="12" sm="6">
+        <MudDateRangePicker Label="Thống Kê" @bind-DateRange="_dateRange" />
+    </MudItem>
+</MudGrid>
+<MudSimpleTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
+    <thead>
+        <tr>
+            @foreach (var h in headings)
+            {
+                <th>@h</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in rows)
+        {
+            <tr>
+                @foreach (var x in row.Split())
+                {
+                    <td>@x</td>
+                }
+            </tr>
+        }
+    </tbody>
+</MudSimpleTable>
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+
+    string[] headings = { " Tên Sản Phầm ", " Loại Sản Phẩm ", " Số lượng bán ra " };
+    string[] rows = {
+        @"abc  Quần 35",
+       @"abc  Quần 35",
+        @"abc  Quần 35",
+       @"abc  Quần 35",
+     @"abc  Quần 35",
+       @"abc  Quần 35",
+    };
+}
+
+@code {
+    MudDateRangePicker _picker;
+    DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
+}

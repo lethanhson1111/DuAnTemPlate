@@ -1,0 +1,41 @@
+﻿@page "/donhangedit"
+
+<form class="border-1">
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Mã Hóa Đơn</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Mã Khách Hàng</label>
+                <input type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Người Quản Trị</label>
+                <input type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <MudGrid>
+                    <MudItem xs="12" sm="6" md="4">
+                        <label for="exampleInputPassword1" class="form-label">Ngày Đặt Hàng</label>
+                        <MudDatePicker Class="w-100" OpenTo="OpenTo.Year" Text="2020-10-19" />
+                    </MudItem>
+                </MudGrid>
+            </div>
+            <div class="mb-3">
+                <label class="form-check-label" for="exampleCheck1">Trạng Thái</label>
+                <select class="form-select form-control form-select-lg mb-3 w-100 h-100" aria-label=".form-select-lg example">
+                    <option selected>Mới Đặt</option>
+                    <option value="1">Đã Giao</option>
+                </select>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary" style="width:25%">Sửa</button>
+                <button type="submit" class="btn btn-primary" style="width:25%">Hủy</button>
+                <button type="submit" class="btn btn-primary" style="width:25%">Về Trang Danh Sách</button>
+            </div>
+        </div>
+    </div>
+</form>
+
