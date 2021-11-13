@@ -1,0 +1,96 @@
+﻿@page "/khachhangdialog/{id}"
+﻿@using System.Net.Http.Json
+@using MudBlazor.Extensions
+@*@using Examples.Data.Models*@
+@inject HttpClient httpClient
+@inject NavigationManager navigation
+@inject ISnackbar Snackbar
+
+<h3>@Tieude</h3>
+<EditForm Model="@khachHang" OnValidSubmit="@SubmitForm">
+    <MudGrid>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField Value="@khachHang.Makhachhang" Label="Mã khách hàng" Disabled="true" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="@khachHang.Tenkhachhang" Label="Tên khách hàng" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="@khachHang.Email" Label="Email" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="@khachHang.Diachi" Label="Địa chỉ" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="@khachHang.Ngaysinh" Format="yyyy/MM/dd" Label="Ngày sinh" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudSelect T="string" Label="giới tính" Variant="Variant.Text" OffsetY="true" Margin="@(_margin==true?Margin.Dense:Margin.None)" Dense="@_dense">
+                <MudSelectItem Value="@("Nam")" />
+                <MudSelectItem Value="@("Nữ")" />
+                <MudSelectItem Value="@("LGBT")" />
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="@khachHang.Sodienthoai" Label="Số điện thoại" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudSwitch @bind-Checked="@khachHang.Trangthai" Color="Color.Secondary">Trạng Thái</MudSwitch>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <InputFile id="fileInput" OnChange="UploadFiles" hidden multiple />
+            <MudFab HtmlTag="label" Color="Color.Secondary" Icon="@Icons.Filled.Image" Label="Load picture" for="fileInput" />
+            @if (files != null)
+            {
+                <MudText Typo="@Typo.h6">@files.Count() File@(files.Count() == 1 ? "" : "s"):</MudText>
+                <MudList>
+                    @foreach (var file in files)
+                    {
+                        @if (khachHang.Hinh != null)
+                        {
+                            <img src="images/khachhang/@khachHang.Hinh" style="width:30%" />
+                        }
+                        <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
+                            @file.Name <code>@file.Size bytes</code>
+                        </MudListItem>
+                    }
+                </MudList>
+            }
+        </MudItem>
+    </MudGrid>
+    <div class="mt-3 ml-0 d-flex">
+        <div class="d-flex ml-auto align-center">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Class="m-2" Link="/KhachhangList">Save</MudButton>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Cancel" Color="Color.Primary" Class="m-2" Link="/KhachhangList">Hủy</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="Reset">Reset Model</MudButton>
+        </div>
+    </div>
+</EditForm>
+@code{
+    IList<IBrowserFile> files = new List<IBrowserFile>();
+    private void UploadFiles(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            files.Add(file);
+        }
+        //TODO upload the files to the server
+    }
+    private void Reset()
+    {
+        khachHang = new KhachHang
+        {
+            Makhachhang = 0,
+            Tenkhachhang = null,
+            Email = null,
+            Diachi = null,
+            Ngaysinh = null,
+            Gioitinh = null,
+            Sodienthoai = null,
+            Hinh = "aolen.jpl",
+            Trangthai = null,
+
+        };
+        StateHasChanged();
+    }
+}
