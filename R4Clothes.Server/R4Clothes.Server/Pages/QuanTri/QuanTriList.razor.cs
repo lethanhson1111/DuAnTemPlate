@@ -39,13 +39,12 @@ namespace R4Clothes.Server.Pages.QuanTri
         private string searchString2 = "";
         private QuanTri selectedItem1 = null;
         private QuanTri selectedItem2 = null;
-        private HashSet<QuanTri> selectedItems = new HashSet<QuanTri>();
-
+        public HashSet<QuanTri> selectedItems = new HashSet<QuanTri>();
         public IEnumerable<QuanTri> quanTris = new List<QuanTri>();
 
         protected override async Task OnInitializedAsync()
         {
-            quanTris = await httpClient.GetFromJsonAsync<List<QuanTri>>("api/QuanTris");
+            quanTris = await httpClient.GetFromJsonAsync<List<QuanTri>>("api/QuanTris/dsqt");
         }
 
         private bool FilterFunc1(QuanTri quanTri) => FilterFunc(quanTri, searchString1);

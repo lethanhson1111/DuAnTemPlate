@@ -68,7 +68,7 @@ namespace R4Clothes.Server.Pages.KhachHang
 
         protected override async Task OnInitializedAsync()
         {
-            khachHangs = await httpClient.GetFromJsonAsync<List<KhachHang>>("api/Khachhangs/dskhachhang");
+            khachHangs = await httpClient.GetFromJsonAsync<List<KhachHang>>("api/QuanTris/khachhang/ds");
         }
 
         private bool FilterFunc1(KhachHang khachhang) => FilterFunc(khachhang, searchString1);

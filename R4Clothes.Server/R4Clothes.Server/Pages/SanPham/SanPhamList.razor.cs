@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using R4Clothes.Server.Pages.LoaiSanPham;
 
 namespace R4Clothes.Server.Pages.SanPham
 {
@@ -66,12 +67,11 @@ namespace R4Clothes.Server.Pages.SanPham
         private SanPham selectedItem1 = null;
         private SanPham selectedItem2 = null;
         private HashSet<SanPham> selectedItems = new HashSet<SanPham>();
-
-        private IEnumerable<SanPham> Elements = new List<SanPham>();
-
+        public IEnumerable<SanPham> sanPhams = new List<SanPham>();
+        
         protected override async Task OnInitializedAsync()
         {
-            Elements = await httpClient.GetFromJsonAsync<List<SanPham>>("api/Sanphams/dssanpham");
+            sanPhams = await httpClient.GetFromJsonAsync<List<SanPham>>("api/Sanphams/dssanpham");          
         }
 
         private bool FilterFunc1(SanPham element) => FilterFunc(element, searchString1);

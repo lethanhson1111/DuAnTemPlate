@@ -13,13 +13,15 @@ namespace R4Clothes.Server.Pages.SanPham
     {
         [Parameter]
         public string id { get; set; }
-        private string Tieude = "";
-        
+        private string Tieude = "";     
         //public interface IWebHostEnvironment env;
         IReadOnlyList<IBrowserFile> selectedFiles;
         public SanPham sanPham = new SanPham();
+        public IEnumerable<LoaiSanPham.LoaiSanPham> LoaiSanPhams = new List<LoaiSanPham.LoaiSanPham>();
         protected override async Task OnInitializedAsync()
         {
+            LoaiSanPhams = await httpClient.GetFromJsonAsync<List<LoaiSanPham.LoaiSanPham>>("api/LoaiSanPhams");
+
             if (string.IsNullOrWhiteSpace(id) || id == "0")
             {
                 Tieude = "Thêm sản phẩm";

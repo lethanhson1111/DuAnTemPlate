@@ -29,7 +29,14 @@
         <MudTd DataLabel="Email">@context.Email</MudTd>
         <MudTd DataLabel="Diachi">@context.Diachi</MudTd>
         <MudTd DataLabel="Ngaysinh">@context.Ngaysinh</MudTd>
-        <MudTd DataLabel="Gioitinh">@context.Gioitinh</MudTd>
+        @if (context.Gioitinh == 0)
+        {
+            <MudTd DataLabel="Gioitinh">Nam</MudTd>
+        }
+        else
+        {
+            <MudTd DataLabel="Gioitinh">Nữ</MudTd>
+        }
         <MudTd DataLabel="Sodienthoai">@context.Sodienthoai</MudTd>
         @*<MudTd DataLabel="Hinh">@context.Hinh</MudTd>*@
         <MudTd DataLabel="Hinh"><img src="images/sanpham/@context.Hinh" style="width:150px" /></MudTd>
@@ -51,8 +58,8 @@
         <MudText Inline="true" Class="align-self-center">Selected2: @selectedItem2?.Tenkhachhang</MudText>
     </div>
     <div style="min-width:200px;">
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CreateNewFolder" Color="Color.Success" Class="m-2" Link="/KhachHangDialog">Create</MudButton>
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info" Size="Size.Small" Class="m-2" Link="/KhachHangDialog">Edit</MudButton>
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CreateNewFolder" Color="Color.Success" Class="m-2"><a href="/KhachHangDialog/0">Create</a></MudButton>
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info" Size="Size.Small" Class="m-2"><a href="/KhachHangDialog/@selectedItem1?.Makhachhang">Edit</a></MudButton>
         <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Class="m-2" Link="/KhahcHangList">Delete</MudButton>
     </div>
 </div>

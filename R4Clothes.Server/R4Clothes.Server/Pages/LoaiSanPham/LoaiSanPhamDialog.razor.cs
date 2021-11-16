@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace R4Clothes.Server.Pages.LoaiSanPham
@@ -13,35 +17,44 @@ namespace R4Clothes.Server.Pages.LoaiSanPham
         public string id { get; set; }
 
         private string Tieude = "";
-        public int IntValue { get; set; }
-        bool _margin = true;
-        bool _dense = true;
         public LoaiSanPham loaiSanPham = new LoaiSanPham();
         protected override async Task OnInitializedAsync()
         {
             if (string.IsNullOrWhiteSpace(id) || id == "0")
             {
-                Tieude = "Thêm quản trị";
+                Tieude = "Thêm loại sản phẩm";
                 loaiSanPham = new LoaiSanPham();
             }
             else
             {
-                Tieude = "Sửa quản trị";
-                //Thêm api getlsp/id
-                loaiSanPham = await httpClient.GetFromJsonAsync<LoaiSanPham>("api/LoaiSanPham/get" + int.Parse(id));
+                navigation.NavigateTo("loaisanphamlist");
             }
         }
         public async void SubmitForm()
         {
-            if (loaiSanPham.Maloai == 0)
+            //var apiUrl = config.GetSection("API")["APIUrl"].ToString();
+            //var accessToken = sessionStorage.GetItem<string>("AccessToken");
+            //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(loaiSanPham),
+            System.Text.Encoding.UTF8, "application/json");
+            //httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+            HttpResponseMessage response = await httpClient.PostAsync("api/loaiSanPhams", content);
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                //quanTri = httpClient.PostAsJsonAsync<QuanTri>("api/QuanTris/add");
+
             }
             else
             {
-                //quanTri = httpClient.PostAsJsonAsync<QuanTri>("api/QuanTris/edit/"+ int.Parse(id));
-            }
-            navigation.NavigateTo("LoaiSanPhamList");
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                if (apiResponse == "-1")
+                {
+
+                }
+                else
+                {
+                    navigation.NavigateTo("/loaisanphamlist");
+                }
+            }                  
         }
     }
 }

@@ -29,7 +29,7 @@ namespace R4Clothes.Server.Pages.LoaiSanPham
         private HashSet<LoaiSanPham> selectedItems = new HashSet<LoaiSanPham>();
 
         public IEnumerable<LoaiSanPham> LoaiSanPhams = new List<LoaiSanPham>();
-
+        
         protected override async Task OnInitializedAsync()
         {
             LoaiSanPhams = await httpClient.GetFromJsonAsync<List<LoaiSanPham>>("api/LoaiSanPhams");

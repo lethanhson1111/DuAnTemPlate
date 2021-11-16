@@ -10,16 +10,17 @@
 <EditForm Model="@sanPham" OnValidSubmit="@SubmitForm">
     <MudGrid>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField Value="@element.Masanpham" Label="Mã Sản Phẩm" Disabled="true" />
+            <MudTextField Value="@sanPham.Masanpham" Label="Mã Sản Phẩm" Disabled="true" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField Value="@element.Maquantri" Label="Mã Quản Trị" Disabled="true" />
+            <MudTextField Value="@sanPham.Maquantri" Label="Mã Quản Trị" Disabled="true" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudSelect T="string" Label="Mã Loại" Variant="Variant.Text" OffsetY="true" Margin="@(_margin==true?Margin.Dense:Margin.None)" Dense="@_dense">
-                <MudSelectItem Value="@("1")" />
-                <MudSelectItem Value="@("2")" />
-                <MudSelectItem Value="@("3")" />
+            <MudSelect Label="Mã Loại" Variant="Variant.Text" @bind-Value="@sanPham.Maloai" OffsetY="true" >
+                @foreach (var loaisanpham in LoaiSanPhams)
+                {
+                    <MudSelectItem Value="@loaisanpham.Maloai">@loaisanpham.Tenloai</MudSelectItem>
+                }
             </MudSelect>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
@@ -76,9 +77,6 @@
 
 
 @code {
-    public int IntValue { get; set; }
-    bool _margin = true;
-    bool _dense = true;
     private IEnumerable<SanPham> Elements = new List<SanPham>();
 
     SanPham element = new SanPham

@@ -25,10 +25,9 @@
             <MudTextField @bind-Value="@khachHang.Ngaysinh" Format="yyyy/MM/dd" Label="Ngày sinh" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudSelect T="string" Label="giới tính" Variant="Variant.Text" OffsetY="true" Margin="@(_margin==true?Margin.Dense:Margin.None)" Dense="@_dense">
-                <MudSelectItem Value="@("Nam")" />
-                <MudSelectItem Value="@("Nữ")" />
-                <MudSelectItem Value="@("LGBT")" />
+            <MudSelect @bind-Value="@khachHang.Gioitinh"  Label="giới tính" Variant="Variant.Text" OffsetY="true" Margin="@(_margin==true?Margin.Dense:Margin.None)" Dense="@_dense">              
+                <MudSelectItem Value="@khachHang.Gioitinh">Nam</MudSelectItem>
+                <MudSelectItem Value="@khachHang.Gioitinh">Nữ</MudSelectItem>              
             </MudSelect>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
@@ -60,13 +59,15 @@
     </MudGrid>
     <div class="mt-3 ml-0 d-flex">
         <div class="d-flex ml-auto align-center">
-            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Class="m-2" Link="/KhachhangList">Save</MudButton>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Class="m-2" ButtonType="ButtonType.Submit">Save</MudButton>
             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Cancel" Color="Color.Primary" Class="m-2" Link="/KhachhangList">Hủy</MudButton>
             <MudButton Variant="Variant.Filled" OnClick="Reset">Reset Model</MudButton>
         </div>
     </div>
 </EditForm>
 @code{
+    bool _margin = true;
+    bool _dense = true;
     IList<IBrowserFile> files = new List<IBrowserFile>();
     private void UploadFiles(InputFileChangeEventArgs e)
     {
@@ -80,16 +81,6 @@
     {
         khachHang = new KhachHang
         {
-            Makhachhang = 0,
-            Tenkhachhang = null,
-            Email = null,
-            Diachi = null,
-            Ngaysinh = null,
-            Gioitinh = null,
-            Sodienthoai = null,
-            Hinh = "aolen.jpl",
-            Trangthai = null,
-
         };
         StateHasChanged();
     }
