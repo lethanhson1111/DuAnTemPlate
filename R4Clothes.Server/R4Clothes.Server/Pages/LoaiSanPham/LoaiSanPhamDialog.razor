@@ -6,24 +6,38 @@
 @inject NavigationManager navigation
 @inject Microsoft.Extensions.Configuration.IConfiguration config;
 @inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
 
 <h3>@Tieude</h3>
 <EditForm Model="@loaiSanPham" OnValidSubmit="@SubmitForm">
+    <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="6" md="4">
             <MudTextField Value="@loaiSanPham.Maloai" Label="Mã loại" Disabled="true" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
             <MudTextField @bind-Value="@loaiSanPham.Tenloai" Label="Tên loại" />
+            <ValidationMessage For="@(()  => loaiSanPham.Tenloai)" />
         </MudItem>
     </MudGrid>
     <div class="mt-3 ml-0 d-flex">
         <div class="d-flex ml-auto align-center">
             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" ButtonType="ButtonType.Submit" Color="Color.Info" Class="m-2">Save</MudButton>
             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Cancel" Color="Color.Primary" Class="m-2" Link="/LoaiSanPhamList">Hủy</MudButton>
-            <MudButton Variant="Variant.Filled" OnClick="Reset">Reset Model</MudButton>
         </div>
     </div>
+    <MudGrid>
+        <MudItem md="4" xs="12">
+            @if (AlertSuccess == true)
+            {
+                <MudAlert Severity="Severity.Success" Dense="true" Class="my-2">Dense Success</MudAlert>
+            }
+            else if (AlertError == true)
+            {
+                <MudAlert Severity="Severity.Error" Dense="true" Class="my-2">Dense Error</MudAlert>
+            }
+        </MudItem>
+    </MudGrid>
 </EditForm>
 @code{
     private void Reset()
@@ -35,4 +49,6 @@
         };
         StateHasChanged();
     }
+
+
 }

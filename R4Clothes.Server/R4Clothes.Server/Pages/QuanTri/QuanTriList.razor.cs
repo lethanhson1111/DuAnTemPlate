@@ -31,14 +31,9 @@ namespace R4Clothes.Server.Pages.QuanTri
     }
     public partial class QuanTriList
     {
-        private bool dense = false;
-        private bool hover = true;
-        private bool striped = false;
-        private bool bordered = false;
         private string searchString1 = "";
         private string searchString2 = "";
         private QuanTri selectedItem1 = null;
-        private QuanTri selectedItem2 = null;
         public HashSet<QuanTri> selectedItems = new HashSet<QuanTri>();
         public IEnumerable<QuanTri> quanTris = new List<QuanTri>();
 

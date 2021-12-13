@@ -5,12 +5,12 @@
 @inject HttpClient httpClient
 @inject ISnackbar Snackbar
 
-<MudTable Items="@LoaiSanPhams" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<LoaiSanPham,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+<MudTable Items="@LoaiSanPhams" Hover="true" Filter="new Func<LoaiSanPham,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Danh Sách Loại Sản Phẩm</MudText>
         @*<MudSpacer />*@
         <div class="flex-grow-1"></div>
-        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="@MudBlazor.Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
         <MudTh>Mã Loại</MudTh>
@@ -26,19 +26,8 @@
 </MudTable>
 
 <div class="d-flex flex-wrap mt-4">
-    <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
-    <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
-    <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
-    <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
-    @*<MudSpacer />*@
-    <div style="min-width:200px;">
-        <MudText Inline="true" Class="align-self-center">Mã Loại: @selectedItem1?.Maloai</MudText>
-        <MudText Inline="true" Class="align-self-center">Tên Loại: @selectedItem2?.Tenloai</MudText>
-    </div>
     <div style="min-width:200px;">
         <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CreateNewFolder" Color="Color.Success" Class="m-2"><a href="/LoaiSanPhamDialog/0">Create</a></MudButton>
-        @*<MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info" Size="Size.Small" Class="m-2"><a href="/LoaiSanPhamDialog/@selectedItem1?.Maloai">Edit</a></MudButton>
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Class="m-2" Link="/LoaiSanPhamList">Delete</MudButton>*@
     </div>   
 </div>
 

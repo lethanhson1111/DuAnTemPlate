@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace R4Clothes.Server.Pages.SanPham
 {
@@ -13,9 +17,10 @@ namespace R4Clothes.Server.Pages.SanPham
     {
         [Parameter]
         public string id { get; set; }
-        private string Tieude = "";     
-        //public interface IWebHostEnvironment env;
-        IReadOnlyList<IBrowserFile> selectedFiles;
+        private string Tieude = "";
+        public string url;
+        public string path;
+        IList<IBrowserFile> files = new List<IBrowserFile>();      
         public SanPham sanPham = new SanPham();
         public IEnumerable<LoaiSanPham.LoaiSanPham> LoaiSanPhams = new List<LoaiSanPham.LoaiSanPham>();
         protected override async Task OnInitializedAsync()
@@ -33,57 +38,66 @@ namespace R4Clothes.Server.Pages.SanPham
                 sanPham = await httpClient.GetFromJsonAsync<SanPham>("api/Sanphams/" + int.Parse(id));
             }       
         }
-
         public async void SubmitForm()
         {
-            //if (selectedFiles != null && selectedFiles.Count > 0)
-            //{
-            //    var rootPath = $"{env.WebRootPath}\\images";
-            //    if (!Directory.Exists(rootPath))
-            //    {
-            //        Directory.CreateDirectory(rootPath);
-            //    }
-
-            //    string dirPath = rootPath + @"\" + "SanPham";
-            //    if (!Directory.Exists(dirPath))
-            //    {
-            //        Directory.CreateDirectory(dirPath);
-            //    }
-
-            //    var file = selectedFiles[0];
-            //    string filePath = dirPath + @"\" + file.Name;
-            //    //var path = $"{env.WebRootPath}\\images\\Monan\\{file.Name}";
-            //    //foreach (var file in selectedFiles)
-            //    {
-            //        Stream stream = file.OpenReadStream();
-            //        var path = $"{env.WebRootPath}\\images\\Monan\\{file.Name}";
-            //        FileStream fs = File.Create(path);
-            //        await stream.CopyToAsync(fs);
-            //        stream.Close();
-            //        fs.Close();
-            //    }
-            //    sanPham.Hinh = file.Name;
-            //}
-            //if (sanPham.Masanpham == 0)
-            //{
-            //    sanPham = await httpClient.PostAsJsonAsync<SanPham>("api/Sanphams/" + int.Parse(id));
-            //}
-            //else
-            //{
-            //    _monAnService.EditMonAn(monAn.MonAnID, monAn);
-            //}
-            //navigation.NavigateTo("MonanList");
+            StringContent content = new StringContent(JsonConvert.SerializeObject(sanPham),
+            System.Text.Encoding.UTF8, "application/json");
+            if (files != null && files.Count > 0)
+            {               
+            }
+            if (sanPham.Masanpham == 0)
+            {
+                //test                
+                HttpResponseMessage response = await httpClient.PostAsync("api/quantri/sanpham/add", content);               
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                }
+                else
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    if (apiResponse == "-1")
+                    {
+                    }
+                    else
+                    {
+                        navigation.NavigateTo("/sanphamlist");
+                    }
+                }
+            }
+            else
+            {
+                HttpResponseMessage response = await httpClient.PostAsync("api/quantri/sanpham/edit", content);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                }
+                else
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    if (apiResponse == "-1")
+                    {
+                    }
+                    else
+                    {
+                        navigation.NavigateTo("/sanphamlist");
+                    }
+                }
+            }
+            navigation.NavigateTo("sanphamlist");
         }
         private void Cancel()
         {
             navigation.NavigateTo("SanPhamList", true);
         }
 
-        private void OnInputFileChange(InputFileChangeEventArgs e)
+        private async Task UploadFiles(InputFileChangeEventArgs e)
         {
-            selectedFiles = e.GetMultipleFiles();
-            //Message = $"{selectedFiles.Count} file(s) selected";
-            this.StateHasChanged();
+            foreach (var item in e.GetMultipleFiles(2))
+            {
+                files.Add(item);
+                url = await _uploadImage.GetUrlImage(item);
+            }
+            var file = files.FirstOrDefault();
+            //TODO upload the files to the server
         }
     }
 }

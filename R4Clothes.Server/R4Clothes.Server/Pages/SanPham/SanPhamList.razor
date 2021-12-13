@@ -5,26 +5,27 @@
 @inject HttpClient httpClient
 @inject ISnackbar Snackbar
 
-<MudTable Items="@sanPhams" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<SanPham,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+<MudTable Items="@sanPhams" Hover="true" Filter="new Func<SanPham,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Danh Sách Sản Phẩm</MudText>
         @*<MudSpacer />*@
         <div class="flex-grow-1"></div>
-        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0 ml-3"></MudTextField>      
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="@MudBlazor.Size.Medium" Class="mt-0 ml-3"></MudTextField>      
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>Masanpham</MudTh>
-        <MudTh>Maquantri</MudTh>
-        <MudTh>Tensanpham</MudTh>
-        <MudTh>Maloai</MudTh>
-        <MudTh>Soluong</MudTh>
-        <MudTh>Gia</MudTh>
-        <MudTh>Hinh</MudTh>
-        <MudTh>Ngaynhap</MudTh>
-        <MudTh>Giamgia</MudTh>
-        <MudTh>Mota</MudTh>
-        <MudTh>Trangthai</MudTh>
-        <MudTh>Dacbiet</MudTh>
+        <MudTh>IDSP</MudTh>
+        <MudTh>IDQT</MudTh>
+        <MudTh>Tên</MudTh>
+        <MudTh>Loại</MudTh>
+        <MudTh>SL</MudTh>
+        <MudTh>Giá</MudTh>
+        <MudTh>Hình</MudTh>
+        <MudTh>Ngày nhập</MudTh>
+        <MudTh>Giảm giá</MudTh>
+        <MudTh>Mô tả</MudTh>
+        <MudTh>Trạng thái</MudTh>
+        <MudTh>Đặc biệt</MudTh>
+        <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Masanpham">@context.Masanpham</MudTd>
@@ -34,13 +35,16 @@
         <MudTd DataLabel="Soluong">@context.Soluong</MudTd>
         <MudTd DataLabel="Gia">@context.Gia</MudTd>
         @*<MudTd DataLabel="Hinh">@context.Hinh</MudTd>*@
-        <MudTd DataLabel="Hinh"><img src="images/sanpham/@context.Hinh" style="width:150px" /></MudTd>     
-        <MudTd DataLabel="Soluotxem">@context.Soluotxem</MudTd>
+        <MudTd DataLabel="Hinh"><img src="images/sanpham/@context.Hinh" style="width:150px" /></MudTd>
         <MudTd DataLabel="Ngaynhap">@context.Ngaynhap</MudTd>
         <MudTd DataLabel="Giamgia">@context.Giamgia</MudTd>
         <MudTd DataLabel="Mota">@context.Mota</MudTd>
         <MudTd DataLabel="Trangthai">@context.Trangthai</MudTd>
         <MudTd DataLabel="Dacbiet">@context.Dacbiet</MudTd>
+        <MudTd>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info" Size="@MudBlazor.Size.Small" Class="m-2"><a href="/SanPhamDialog/@context.Masanpham">Edit</a></MudButton>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Class="m-2" Link="/SanPhamList">Delete</MudButton>
+        </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager />
@@ -48,19 +52,8 @@
 </MudTable>
 
 <div class="d-flex flex-wrap mt-4">
-    <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
-    <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
-    <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
-    <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
-    @*<MudSpacer />*@
     <div style="min-width:200px;">
-        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1?.Tensanpham</MudText>
-        <MudText Inline="true" Class="align-self-center">Selected2: @selectedItem2?.Tensanpham</MudText>
-    </div>
-    <div style="min-width:200px;">
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CreateNewFolder" Color="Color.Success" Class="m-2" Link="/SanPhamDialog">Create</MudButton>
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info" Size="Size.Small" Class="m-2" Link="/SanPhamDialog">Edit</MudButton>
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" Class="m-2" Link="/SanPhamList">Delete</MudButton>
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.CreateNewFolder" Color="Color.Success" Class="m-2"><a href="/SanPhamDialog/0">Create</a></MudButton>      
     </div>
 </div>
 @code {

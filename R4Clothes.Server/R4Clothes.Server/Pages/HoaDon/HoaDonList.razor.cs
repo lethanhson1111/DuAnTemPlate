@@ -43,27 +43,22 @@ namespace R4Clothes.Server.Pages.HoaDon
         [Display(Name = "Trạng thái")]
         public TrangthaiHD Trangthai { get; set; }
 
-        //public KhachHang KhachHang { get; set; }
-        //public QuanTri QuanTri { get; set; }
+        public KhachHang.KhachHang KhachHang { get; set; }
+        public QuanTri.QuanTri QuanTri { get; set; }
         //public List<ChiTietHoaDon> ChiTietHoaDons { get; set; }
     }
     public partial class HoaDonList
     {
-        private bool dense = false;
-        private bool hover = true;
-        private bool striped = false;
-        private bool bordered = false;
         private string searchString1 = "";
         private string searchString2 = "";
         private HoaDon selectedItem1 = null;
-        private HoaDon selectedItem2 = null;
         private HashSet<HoaDon> selectedItems = new HashSet<HoaDon>();
 
         public IEnumerable<HoaDon> HoaDons = new List<HoaDon>();
 
         protected override async Task OnInitializedAsync()
         {
-            HoaDons = await httpClient.GetFromJsonAsync<List<HoaDon>>("api/HoaDons");
+            HoaDons = await httpClient.GetFromJsonAsync<List<HoaDon>>("api/QuanTris/hoadon/getall");
         }
 
         private bool FilterFunc1(HoaDon HoaDon) => FilterFunc(HoaDon, searchString1);

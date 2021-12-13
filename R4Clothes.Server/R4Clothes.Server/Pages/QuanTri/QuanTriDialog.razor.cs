@@ -16,20 +16,20 @@ namespace R4Clothes.Server.Pages.QuanTri
     {
         [Parameter]
         public string id { get; set; }
-
+        bool flag = true;
         private string Tieude = "";
-        public QuanTri quanTri = new QuanTri();
+        public QuanTri quantri = new QuanTri();
         protected override async Task OnInitializedAsync()
         {
             if (string.IsNullOrWhiteSpace(id) || id == "0")
             {
                 Tieude = "Thêm quản trị";
-                quanTri = new QuanTri();
+                quantri = new QuanTri();
             }
             else
             {
                 Tieude = "Sửa thông tin quản trị";
-               quanTri = await httpClient.GetFromJsonAsync<QuanTri>("api/QuanTris/get/" + id);
+                quantri = await httpClient.GetFromJsonAsync<QuanTri>("api/QuanTris/get/" + id);
             }
         }
         public async void SubmitForm()
@@ -37,12 +37,13 @@ namespace R4Clothes.Server.Pages.QuanTri
             //var apiUrl = config.GetSection("API")["APIUrl"].ToString();
             //var accessToken = sessionStorage.GetItem<string>("AccessToken");
             //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-            StringContent content = new StringContent(JsonConvert.SerializeObject(quanTri),
+            StringContent content = new StringContent(JsonConvert.SerializeObject(quantri),
             System.Text.Encoding.UTF8, "application/json");
             //httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
             if (string.IsNullOrWhiteSpace(id) || id == "0")
             {
                 HttpResponseMessage response = await httpClient.PostAsync("api/QuanTris/add", content);
+
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
 
@@ -61,7 +62,8 @@ namespace R4Clothes.Server.Pages.QuanTri
                 }
             }
             else
-            {
+            {               
+                flag = false;
                 HttpResponseMessage response = await httpClient.PostAsync("api/QuanTris/edit/" + id, content);
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -80,6 +82,12 @@ namespace R4Clothes.Server.Pages.QuanTri
                     }
                 }
             }
+        }
+        private string PasswordMatch(string arg)
+        {
+            if (pwField1.Value != arg)
+                return "mật khẩu không trùng";
+            return null;
         }
     }
 }

@@ -39,7 +39,7 @@ namespace R4Clothes.Server.Pages.SanPham
 
         public int Soluotxem { get; set; }
 
-        public DateTime Ngaynhap { get; set; }
+        public DateTime? Ngaynhap { get; set; }
 
         public int? Giamgia { get; set; }
 
@@ -52,20 +52,15 @@ namespace R4Clothes.Server.Pages.SanPham
 
         public bool Dacbiet { get; set; }
 
-        //public QuanTri QuanTris { get; set; }
-        //public SanPham LoaiSanPhams { get; set; }
+        public QuanTri.QuanTri QuanTris { get; set; }
+        public LoaiSanPham.LoaiSanPham LoaiSanPhams { get; set; }
         //public ICollection<ChiTietHoaDon> ChiTietHoaDons { get; set; }
     }
     public partial class SanPhamList
     {
-        private bool dense = false;
-        private bool hover = true;
-        private bool striped = false;
-        private bool bordered = false;
         private string searchString1 = "";
         private string searchString2 = "";
         private SanPham selectedItem1 = null;
-        private SanPham selectedItem2 = null;
         private HashSet<SanPham> selectedItems = new HashSet<SanPham>();
         public IEnumerable<SanPham> sanPhams = new List<SanPham>();
         

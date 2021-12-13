@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -11,6 +14,7 @@ namespace R4Clothes.Server.Pages.HoaDon
     {
         [Parameter]
         public string id { get; set; }
+        public string nguoiql { get; set; }
 
         private string Tieude = "";
         public HoaDon hoaDon = new HoaDon();
@@ -18,27 +22,39 @@ namespace R4Clothes.Server.Pages.HoaDon
         {
             if (string.IsNullOrWhiteSpace(id) || id == "0")
             {
-
-                navigation.NavigateTo("hoadonlist", true);
+                Tieude = "Thêm hóa đơn";
+                hoaDon = new HoaDon();
             }
             else
             {
                 Tieude = "Sửa hóa đơn";
-                //Thêm api getlsp/id
-                hoaDon = await httpClient.GetFromJsonAsync<HoaDon>("api/hoadon/{id}" + int.Parse(id));
+                hoaDon = await httpClient.GetFromJsonAsync<HoaDon>("api/HoaDons/" + id);
             }
         }
         public async void SubmitForm()
         {
-            if (hoaDon.Mahoadon == 0)
+            //var apiUrl = config.GetSection("API")["APIUrl"].ToString();
+            //var accessToken = sessionStorage.GetItem<string>("AccessToken");
+            //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+            StringContent content = new StringContent(JsonConvert.SerializeObject(hoaDon),
+            System.Text.Encoding.UTF8, "application/json");
+            //httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+            HttpResponseMessage response = await httpClient.PostAsync("api/QuanTris/hoadon/suahd?idhd=" + id + "&nguoiql=" + 1 + "&tt=" + ((int)hoaDon.Trangthai), content);
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                //quanTri = httpClient.PostAsJsonAsync<QuanTri>("api/QuanTris/add");
             }
-            else
-            {
-                //quanTri = httpClient.PostAsJsonAsync<QuanTri>("api/QuanTris/edit/"+ int.Parse(id));
+            else 
+            { 
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                if (apiResponse == "-1")
+                {
+
+                }
+                else
+                {
+                    navigation.NavigateTo("/hoadonlist");
+                }
             }
-            navigation.NavigateTo("hoadonlist");
         }
     }
 }

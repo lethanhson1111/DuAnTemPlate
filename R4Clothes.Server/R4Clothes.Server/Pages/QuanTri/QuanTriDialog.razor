@@ -9,31 +9,33 @@
 @inject ISnackbar Snackbar
 
 <h3>@Tieude</h3>
-<EditForm Model="@quanTri" OnValidSubmit="@SubmitForm">
+<EditForm Model="@quantri" OnValidSubmit="@SubmitForm">
+    <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField Value="@quanTri.Maquantri" Label="Mã quản trị" Disabled="true" />
+            <MudTextField @bind-Value="@quantri.Maquantri" Label="Mã quản trị" Disabled="true" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField Value="@quanTri.Hoten" Label="Họ tên"/>
+            <MudTextField @bind-Value="@quantri.Hoten" Label="Họ tên" />
+            <ValidationMessage For="@(()  => quantri.Hoten)" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField Value="@quanTri.Taikhoan" Label="Tài Khoản"/>
+            <MudTextField @bind-Value="@quantri.Taikhoan" Label="Tài Khoản" />
+            <ValidationMessage For="@(()  => quantri.Taikhoan)" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField Value="@quanTri.Matkhau" Label="Mật khẩu" @ref="pwField1" InputType="InputType.Password"/>
+            <MudTextField @bind-Value="@quantri.Matkhau" Label="Mật khẩu" @ref="pwField1" InputType="InputType.Password" Disabled="@flag" />
+            <ValidationMessage For="@(()  => quantri.Matkhau)" />
         </MudItem>
-        @*<MudItem xs="12" sm="6" md="4">
-            <MudTextField T="string"
-                          Label="Nhập lại mật khẩu" InputType="InputType.Password"
-                          Validation="@(new Func<string, string>(PasswordMatch))" />
-        </MudItem>*@
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField T="string" Label="Nhập lại mật khẩu" InputType="InputType.Password"
+                          Validation="@(new Func<string, string>(PasswordMatch))" Disabled="@flag" />
+        </MudItem>
     </MudGrid>
     <div class="mt-3 ml-0 d-flex">
         <div class="d-flex ml-auto align-center">
             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" ButtonType="ButtonType.Submit" Color="Color.Info" Class="m-2">Save</MudButton>
-            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Cancel" Color="Color.Primary" Class="m-2" Link="/QuanTriList">Hủy</MudButton>
-            <MudButton Variant="Variant.Filled" OnClick="Reset">Reset Model</MudButton>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Cancel" Color="Color.Primary" Class="m-2" Link="/QuanTriList">Hủy</MudButton>           
         </div>
     </div>
 </EditForm>
@@ -60,16 +62,11 @@
             yield return "Password must contain at least one digit";
     }
 
-    private string PasswordMatch(string arg)
-    {
-        if (pwField1.Value != arg)
-            return "Passwords don't match";
-        return null;
-    }
+    
 
     private void Reset()
     {
-        quanTri = new QuanTri
+        quantri = new QuanTri
         {
             Maquantri = 0,
             Hoten = null,

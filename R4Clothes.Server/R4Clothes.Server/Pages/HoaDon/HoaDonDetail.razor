@@ -1,4 +1,67 @@
-﻿@page "/hoadondetails"
+﻿@page "/Hoadondetail/{id}"
+﻿@using System.Net.Http.Json
+@using MudBlazor.Extensions
+@*@using Examples.Data.Models*@
+@inject HttpClient httpClient
+@inject NavigationManager navigation
+@inject ISnackbar Snackbar
+
+
+<MudText Typo="Typo.h6">Chi Tiết Hóa Đơn </MudText>
+@*<MudSpacer />*@
+
+<div class="flex-grow-1"></div>
+
+<EditForm Model="@hoaDon" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" @bind-SelectedItem="selectedItem1">
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">Khách Hàng</dt>
+            <dd class="col-sm-10">@hoaDon.Mahoadon</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Ngày Đặt</dt>
+            <dd class="col-sm-10">@hoaDon.Makhachhang</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Tổng Tiền</dt>
+            <dd class="col-sm-10">@hoaDon.Nguoiquantri</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Trạng Thái</dt>
+            <dd class="col-sm-10">@hoaDon.Ngaydat</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Ghi Chú</dt>
+            <dd class="col-sm-10">@hoaDon.Tongtien</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Khách Hàng</dt>
+            <dd class="col-sm-10">@hoaDon.Trangthai</dd>
+        </dl>
+    </div>
+</EditForm>
+<MudTable Items="@sanPhamCTs" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<SanPhamCT,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+    <HeaderContent>
+        <MudTh>Tên Sản Phẩm </MudTh>
+        <MudTh>Hình</MudTh>
+        <MudTh>Số Lượng </MudTh>
+        <MudTh> Giá</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Maloai">@context.TenSanPham</MudTd>
+        <MudTd DataLabel="Tenloai">@context.Hinh</MudTd>
+        <MudTd DataLabel="Tenloai">@context.SoLuongMua</MudTd>
+        <MudTd DataLabel="Tenloai">@context.Gia</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+
+
 
 @code {
 

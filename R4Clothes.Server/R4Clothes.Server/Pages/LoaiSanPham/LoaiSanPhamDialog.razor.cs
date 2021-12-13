@@ -15,7 +15,8 @@ namespace R4Clothes.Server.Pages.LoaiSanPham
     {
         [Parameter]
         public string id { get; set; }
-
+        bool AlertSuccess;
+        bool AlertError;
         private string Tieude = "";
         public LoaiSanPham loaiSanPham = new LoaiSanPham();
         protected override async Task OnInitializedAsync()
@@ -41,10 +42,10 @@ namespace R4Clothes.Server.Pages.LoaiSanPham
             HttpResponseMessage response = await httpClient.PostAsync("api/loaiSanPhams", content);
             if (response.StatusCode != HttpStatusCode.OK)
             {
-
+                
             }
             else
-            {
+            {        
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 if (apiResponse == "-1")
                 {
@@ -52,6 +53,8 @@ namespace R4Clothes.Server.Pages.LoaiSanPham
                 }
                 else
                 {
+                    Snackbar.Add("Thêm thành công", MudBlazor.Severity.Success);
+                    await Task.Delay(3000);
                     navigation.NavigateTo("/loaisanphamlist");
                 }
             }                  

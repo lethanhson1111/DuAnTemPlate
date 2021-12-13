@@ -31,7 +31,7 @@ namespace R4Clothes.Server.Pages.KhachHang
 
         public DateTime? Ngaysinh { get; set; }
 
-        public int? Gioitinh { get; set; }
+        public int Gioitinh { get; set; }
 
         [Required(ErrorMessage = "Bạn cần nhập số điện thoại."), Display(Name = "Số điện thoại")]
         [Column(TypeName = "varchar(15)"), MaxLength(15)]
@@ -54,14 +54,10 @@ namespace R4Clothes.Server.Pages.KhachHang
     }
     public partial class KhachHangList
     {
-        private bool dense = false;
-        private bool hover = true;
-        private bool striped = false;
-        private bool bordered = false;
+        
         private string searchString1 = "";
         private string searchString2 = "";
         private KhachHang selectedItem1 = null;
-        private KhachHang selectedItem2 = null;
         private HashSet<KhachHang> selectedItems = new HashSet<KhachHang>();
 
         public IEnumerable<KhachHang> khachHangs = new List<KhachHang>();

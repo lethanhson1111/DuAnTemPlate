@@ -14,7 +14,7 @@ namespace R4Clothes.Server.Pages.KhachHang
     {
         [Parameter]
         public string id { get; set; }
-
+        public string _gioitinh { get; set; }
         private string Tieude = "";
         public KhachHang khachHang = new KhachHang();
         protected override async Task OnInitializedAsync()

@@ -1,10 +1,14 @@
 ﻿@page "/sanphamdialog/{id}"
 ﻿@using System.Net.Http.Json
 @using MudBlazor.Extensions
+@using Microsoft.AspNetCore.Hosting;
+@using Microsoft.Extensions.Hosting;
+@*@inject IWebHostEnvironment Env*@
 @*@using Examples.Data.Models*@
 @inject HttpClient httpClient
 @inject NavigationManager navigation
 @inject ISnackbar Snackbar
+@inject R4Clothes.Server.Helpers.IUploadImage _uploadImage
 
 <h3>@Tieude</h3>
 <EditForm Model="@sanPham" OnValidSubmit="@SubmitForm">
@@ -16,7 +20,7 @@
             <MudTextField Value="@sanPham.Maquantri" Label="Mã Quản Trị" Disabled="true" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudSelect Label="Mã Loại" Variant="Variant.Text" @bind-Value="@sanPham.Maloai" OffsetY="true" >
+            <MudSelect Label="Mã Loại" Variant="Variant.Text" @bind-Value="@sanPham.Maloai" OffsetY="true">
                 @foreach (var loaisanpham in LoaiSanPhams)
                 {
                     <MudSelectItem Value="@loaisanpham.Maloai">@loaisanpham.Tenloai</MudSelectItem>
@@ -24,103 +28,51 @@
             </MudSelect>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField @bind-Value="@element.Tensanpham" Label="Tên Sản Phẩm" />
+            <MudTextField @bind-Value="@sanPham.Tensanpham" Label="Tên Sản Phẩm" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField @bind-Value="@element.Soluong" Label="Số Lượng" Variant="Variant.Text" Min="0" Max="10" />
+            <MudTextField @bind-Value="@sanPham.Soluong" Label="Số Lượng" Variant="Variant.Text" Min="0" Max="10" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField @bind-Value="@element.Ngaynhap" Format="yyyy/MM/dd" Label="Last Update" />
+            <MudDatePicker Label="Ngày nhập" Editable="true" @bind-Date="@sanPham.Ngaynhap" Placeholder="Select Date" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField @bind-Value="@element.Gia" Label="Giá" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
+            <MudTextField @bind-Value="@sanPham.Gia" Label="Giá" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField @bind-Value="@element.Giamgia" Label="Giảm Giá" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
+            <MudTextField @bind-Value="@sanPham.Giamgia" Label="Giảm Giá" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudTextField @bind-Value="@element.Mota" Label="Mô Tả" Variant="Variant.Text" Min="0" Max="10" />
+            <MudTextField @bind-Value="@sanPham.Mota" Label="Mô Tả" Variant="Variant.Text" Min="0" Max="10" />
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <MudSwitch @bind-Checked="@element.Dacbiet" Color="Color.Secondary">Đặc Biệt</MudSwitch>
-            <MudSwitch @bind-Checked="@element.Trangthai" Color="Color.Secondary">Trạng Thái</MudSwitch>
+            <MudSwitch @bind-Checked="@sanPham.Dacbiet" Color="Color.Secondary">Đặc Biệt</MudSwitch>
+            <MudSwitch @bind-Checked="@sanPham.Trangthai" Color="Color.Secondary">Trạng Thái</MudSwitch>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
-            <InputFile id="fileInput" OnChange="UploadFiles" hidden multiple />
-            <MudFab HtmlTag="label" Color="Color.Secondary" Icon="@Icons.Filled.Image" Label="Load picture" for="fileInput" />
-            @if (files != null)
-            {
-                <MudText Typo="@Typo.h6">@files.Count() File@(files.Count() == 1 ? "" : "s"):</MudText>
-                <MudList>
-                    @foreach (var file in files)
-                    {
-                        @if (element.Hinh != null)
-                        {
-                            <img src="images/sanpham/@file.Name" style="width:30%" />
-                        }
-                        <MudListItem Icon="@Icons.Filled.AttachFile" @key="@file">
-                            @file.Name <code>@file.Size bytes</code>
-                        </MudListItem>
-                    }
-                </MudList>
-            }
+            <InputFile id="fileInput" OnChange="UploadFiles" hidden />
+            <MudButton HtmlTag="label"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Filled.CloudUpload"
+                       for="fileInput">
+                Upload Files               
+            </MudButton>
+            <p>@url</p>
         </MudItem>
     </MudGrid>
     <div class="mt-3 ml-0 d-flex">
         <div class="d-flex ml-auto align-center">
-            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Class="m-2" Link="/SanPhamList">Save</MudButton>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Class="m-2" ButtonType="ButtonType.Submit">Save</MudButton>
             <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Cancel" Color="Color.Primary" Class="m-2" Link="/SanPhamList">Hủy</MudButton>
-            <MudButton Variant="Variant.Filled" OnClick="Reset">Reset Model</MudButton>
         </div>
     </div>
 </EditForm>
 
 
 @code {
-    private IEnumerable<SanPham> Elements = new List<SanPham>();
 
-    SanPham element = new SanPham
-    {
-        Masanpham = 1,
-        Maquantri = 1,
-        Tensanpham = "Áo Len",
-        Maloai = 1,
-        Soluong = 10,
-        Gia = 5,
-        Hinh = "images/sanpham/aolen.jpl",
-        Ngaynhap = DateTime.Today,
-        Giamgia = 0,
-        Mota = "",
-        Trangthai = true,
-        Dacbiet = true,
-    };
 
-    private void Reset()
-    {
-        element = new SanPham
-        {
-            Masanpham = 1,
-            Maquantri = 1,
-            Tensanpham = "Áo Len",
-            Maloai = 1,
-            Soluong = 10,
-            Gia = 5,
-            Hinh = "images/sanpham/aolen.jpl",
-            Ngaynhap = DateTime.Today,
-            Giamgia = 0,
-            Mota = "",
-            Trangthai = true,
-            Dacbiet = true,
-        };
-        StateHasChanged();
-    }
-    IList<IBrowserFile> files = new List<IBrowserFile>();
-    private void UploadFiles(InputFileChangeEventArgs e)
-    {
-        foreach (var file in e.GetMultipleFiles())
-        {
-            files.Add(file);
-        }
-        //TODO upload the files to the server
-    }
+
+
 }

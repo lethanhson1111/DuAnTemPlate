@@ -18,14 +18,10 @@ namespace R4Clothes.Server.Pages.LoaiSanPham
     }
     public partial class LoaiSanPhamList
     {
-        private bool dense = false;
-        private bool hover = true;
-        private bool striped = false;
-        private bool bordered = false;
+
         private string searchString1 = "";
         private string searchString2 = "";
         private LoaiSanPham selectedItem1 = null;
-        private LoaiSanPham selectedItem2 = null;
         private HashSet<LoaiSanPham> selectedItems = new HashSet<LoaiSanPham>();
 
         public IEnumerable<LoaiSanPham> LoaiSanPhams = new List<LoaiSanPham>();
